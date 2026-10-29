@@ -29,7 +29,7 @@ def propose_edit(scene: Scene, result: SimResult) -> tuple[str, list[dict]]:
         ball = next((p for p in scene.parts if p.type == "ball"), None)
         if bell and ball and hasattr(ball.shape, "x") and hasattr(bell.shape, "x"):
             dx = bell.shape.x - ball.shape.x
-            return "offline fallback moved the ball toward the target", [{"op": "move", "part": ball.id, "dx": dx * .5, "dy": 0}]
+            return "offline fallback moved the ball toward the target", [{"op": "move", "part": ball.id, "dx": dx * .75, "dy": 0}]
         return "no safe offline edit available", []
     return _parse_response(text)
 
@@ -70,6 +70,8 @@ def repair_loop(scene: Scene) -> Iterator[Attempt]:
             break
         reasoning, edits = propose_edit(current, result)
         current = apply_edits(current, edits)
+        scene.parts = current.parts
+        scene.goal = current.goal
         result = simulate(current)
         yield Attempt(n=number, reasoning=reasoning, edits=edits, result=result)
         if result.success:
