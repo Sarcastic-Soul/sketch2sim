@@ -7,3 +7,11 @@ node_modules/
 *.mp4
 .pytest_cache/
 .mypy_cache/
+
+# Local hackathon planning notes
+AGENTS.md
+architecture.md
+build-plan.md
+ideas.md
+submission.md
+demo-script.md
