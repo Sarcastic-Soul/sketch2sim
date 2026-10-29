@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sketch2Sim</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<main><header><p class="eyebrow">SKETCH2SIM / PHYSICAL SYSTEMS</p><h1>Turn a sketch into a machine you can test.</h1><p class="lede">Upload a mechanism, let the agent read it, then watch the physics verifier drive the repair loop.</p></header>
+<section class="controls"><label class="drop"><input id="sketch" type="file" accept="image/*"><span>Choose a mechanism sketch</span><small>PNG or JPG</small></label><input id="goal" value="ring the bell" aria-label="Goal"><button id="run">Run simulation</button></section>
+<section class="workspace"><div class="panel"><div class="panel-title"><span>Simulation</span><span id="status">Waiting for a sketch</span></div><canvas id="sim" width="800" height="600"></canvas></div><aside class="panel log"><div class="panel-title">Agent attempts</div><ol id="attempts"></ol></aside></section>
+<section class="result panel"><div><div class="panel-title">Verified machine</div><p id="result">The final illustration will appear here after the verifier succeeds.</p></div><img id="render" alt="Generated illustration of the verified machine"></section></main><script type="module" src="/static/main.js"></script></body></html>
