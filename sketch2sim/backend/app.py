@@ -7,6 +7,7 @@ from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
+from backend import config
 from backend.pipeline.perception import read_sketch, run_sam
 from backend.pipeline.render import render_machine
 from backend.pipeline.repair import repair_loop
@@ -25,9 +26,18 @@ async def index():
     return FileResponse(ROOT / "frontend" / "index.html")
 
 
+@app.get("/health")
+async def health():
+    return {"status": "ok", "meta_configured": bool(config.META_API_KEY), "baseten_configured": bool(config.BASETEN_API_KEY)}
+
+
 @app.post("/upload")
 async def upload(file: UploadFile = File(...), goal: str = Form("ring the bell")):
     data = await file.read()
+    if len(data) > config.MAX_UPLOAD_BYTES:
+        return JSONResponse({"error": "image is larger than 10 MB"}, status_code=413)
+    if not data:
+        return JSONResponse({"error": "image is empty"}, status_code=400)
     labeled, detected_goal = read_sketch(data)
     scene = build_scene(labeled, goal or detected_goal)
     run_id = uuid.uuid4().hex

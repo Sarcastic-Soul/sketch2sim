@@ -20,4 +20,5 @@ PIXELS_PER_METER = 100.0
 SIM_FPS = 60
 SIM_MAX_SECONDS = 12
 MAX_REPAIR_ATTEMPTS = 4
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 PART_TYPES = ["ball", "ramp", "lever", "pivot", "spring", "bell"]
